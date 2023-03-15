@@ -5,33 +5,67 @@ function file_exists(path)
     return file ~= nil
 end
 
--- reads the content of a file
-function read_file(path)
-    if not file_exists(path) then return nil end
-    local file = io.open(path, "r")
-    local content = file:read("*a")
-    file:close()
-    return content
+-- OOP imitation for files manipulation
+local File = {}
+File.__index = File
+
+function File.new(filename)
+    local obj = setmetatable({}, File)
+    obj.filename = filename
+    return obj
 end
 
--- appends new content at the end of a specified file
-function append_to_file(path, text)
-    if not text then return nil end
-    if not file_exists(path) then
-        local file = io.output(path, "a")
-        file:write(text)
-        file:close()
-    else
-        local file = io.open(path, "a")
-        file:write(string.format("\n%s", text))
-        file:close()
+function File:open(mode)
+    if not file_exists(self.filename) then
+        local status, err = pcall(function () error(string.format("%s file does not exist!", self.filename)) end)
+        print(err)
+        return
     end
+    self.file = io.open(self.filename, mode)
 end
 
--- main
-local file = "file.txt"
+function File:close()
+    if not self.file then
+        local status, err = pcall(function () error(string.format("%s file is not opened!", self.filename)) end)
+        print(err)
+        return
+    end
+    self.file:close()
+end
 
-local fileContent = read_file(file)
-print(fileContent)
+function File:read()
+    if not self.file then
+        local status, err = pcall(function () error(string.format("%s file is not opened!", self.filename)) end)
+        print(err)
+        return
+    end
+    return self.file:read("*a")
+end
 
-append_to_file(file, "😎")
+function File:write(text)
+    if not self.file then
+        local status, err = pcall(function () error(string.format("%s file is not opened!", self.filename)) end)
+        print(err)
+        return
+    end
+    self.file:write(string.format("%s\n", text))
+end
+
+function File:delete()
+    if not file_exists(self.filename) then
+        local status, err = pcall(function () error(string.format("%s file does not exist!", self.filename)) end)
+        print(err)
+        return
+    end
+    os.remove(self.filename)
+end
+
+local file = File.new("files/file.txt")
+file:open("r")
+local contents = file:read()
+file:close()
+print(contents)
+
+file:open("a")
+file:write("🥶")
+file:close()
