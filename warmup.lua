@@ -17,9 +17,7 @@ end
 
 function File:open(mode)
     if not file_exists(self.filename) then
-        local status, err = pcall(function () error(string.format("%s file does not exist!", self.filename)) end)
-        print(err)
-        return
+        error("Unable to open the file")
     end
     self.file = io.open(self.filename, mode)
 end
@@ -60,12 +58,4 @@ function File:delete()
     os.remove(self.filename)
 end
 
-local file = File.new("files/file.txt")
-file:open("r")
-local contents = file:read()
-file:close()
-print(contents)
-
-file:open("a")
-file:write("🥶")
-file:close()
+return File
