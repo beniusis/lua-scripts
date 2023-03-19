@@ -33,17 +33,17 @@ end
 
 function File:read()
   if not self.file then
-    error("Error while reading the file '" .. self.filename .. "': is not opened or opened with the wrong mode")
+    error("Error while reading the file '" .. self.filename .. "': is not opened")
   end
   return self.file:read("*all")
 end
 
 function File:write(contents)
   if not self.file then
-    error("Error while writing to the file '" .. self.filename .. "': file not opened")
+    error("Error while writing to the file '" .. self.filename .. "': is not not opened")
   end
   if self.mode ~= "w" and self.mode ~= "a" then
-    error("Error while writing to the file '" .. self.filename .. "': file not opened in write or append mode")
+    error("Error while writing to the file '" .. self.filename .. "': is not opened in write/append mode")
   end
   self.file:write(contents .. "\n")
 end
