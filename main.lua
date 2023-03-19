@@ -1,12 +1,33 @@
-files = { "files/file.txt", "files/new.txt" }
-File = require "warmup"
+local File = require("file_object")
+local files = { "files/file.txt", "files/new.txt" }
 
-for index, file in ipairs(files) do
-    local newFile = File.new(file)
-    res, output = pcall(newFile:open, "r")
-    if not res
-        then print("Failed: " .. output)
-    else
-        print(output)
-    end
+for _, file in ipairs(files) do
+  local file_obj = File:new(file)
+  
+  local success, output
+  
+  success, output = pcall(file_obj.open, file_obj, "r")
+  if not success then
+    print(output)
+  end
+  
+  success, output = pcall(file_obj.read, file_obj)
+  if not success then
+      print(output)
+  end
+  
+  success, output = pcall(file_obj.write, file_obj, "😃💀🔥")
+  if not success then
+      print(output)
+  end
+  
+  success, output = pcall(file_obj.close, file_obj)
+  if not success then
+      print(output)
+  end
+  
+  success, output = pcall(file_obj.delete, file_obj)
+  if not success then
+      print(output)
+  end
 end
