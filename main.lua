@@ -13,21 +13,21 @@ for _, file in ipairs(files) do
   
   success, output = pcall(file_obj.read, file_obj)
   if not success then
-      print(output)
+    print(output)
   end
   
   success, output = pcall(file_obj.write, file_obj, "😃💀🔥")
   if not success then
-      print(output)
+    print(output)
   end
   
   success, output = pcall(file_obj.close, file_obj)
   if not success then
-      print(output)
+    print(output)
   end
   
   success, output = pcall(file_obj.delete, file_obj)
   if not success then
-      print(output)
+    print(output)
   end
 end
