@@ -35,6 +35,9 @@ function File:read()
   if not self.file then
     error("Error while reading '" .. self.filename .. "': file is not opened")
   end
+  if self.mode ~= "r" then
+    error("Error while reading '" .. self.filename .. "': file is not opened in read mode")
+  end
   return self.file:read("*all")
 end
 

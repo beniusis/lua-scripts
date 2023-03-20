@@ -9,25 +9,35 @@ for _, file in ipairs(files) do
   success, output = pcall(file_obj.open, file_obj, "r")
   if not success then
     print(output)
+  else
+    print("Successfully opened '" .. file_obj.filename .. "'")
   end
   
   success, output = pcall(file_obj.read, file_obj)
   if not success then
     print(output)
+  else
+    print("'" .. file_obj.filename .. "' contents: " .. output)
   end
   
   success, output = pcall(file_obj.write, file_obj, "😃💀🔥")
   if not success then
     print(output)
+  else
+    print("Successfully added new content to '" .. file_obj.filename .. "'")
   end
   
   success, output = pcall(file_obj.close, file_obj)
   if not success then
     print(output)
+  else
+    print("Successfully closed '" .. file_obj.filename .. "'")
   end
   
   success, output = pcall(file_obj.delete, file_obj)
   if not success then
     print(output)
+  else
+    print("Successfully deleted '" .. file_obj.filename .. "'")
   end
 end
